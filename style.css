@@ -1,0 +1,26 @@
+.xxx {
+    border-radius: 2px;
+    background: #fed;
+    padding: 20px; 
+}
+
+.step-indicator {
+    border-radius: 2px;
+    background: #4CC;
+}
+
+body {
+    font-family: "Comic Sans MS","微軟雅黑", "Helvetica Neue";
+    margin: 2em;
+    }
+.row [class^=col-] {
+    background-color: #fee6d3;
+    padding: 1px;
+    }
+.row [class^=col-] div {
+    margin: 4px;
+    background-color: rgba(44, 80,186,.45);
+    border: 1px solid rgba(44, 80,126,.2);
+    border-radius: 6px;    
+    padding: 2px;    
+}

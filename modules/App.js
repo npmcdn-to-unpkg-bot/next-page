@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router'
+import './app.scss';
 
-export default React.createClass({
+class App extends React.Component {
   render() {
     return (
         <div className="container">
-          <div className="row text-center">
-            <h4>事件管理</h4>
-            <div>Menu -- 新增事件</div>
+          <div className="row tex-left">
+            <div className="step-indicator">Menu -- 新增事件</div>
           </div>
 
           <ul role="nav">
@@ -22,4 +22,5 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+export default App;

@@ -9,15 +9,4 @@ body {
     margin: 4em;
 }
 
-.row [class^=col-] {
-    background-color: #ffe;
-    padding: 2px;
-}
 
-.row [class^=col-] div {
-    margin: 4px;
-    background-color: rgba(240, 240, 240,.45);
-    border: 1px solid rgba(44, 80,126,.2);
-    border-radius: 6px;    
-    padding: 2px;
-}

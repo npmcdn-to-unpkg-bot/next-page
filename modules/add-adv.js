@@ -23,7 +23,6 @@ export class Adv2 extends React.Component {
   render() {
     return (
         <Step2 t1='廣告設定' t2='設定負責群組/Beacon' back='/' prev='/adv-step1' next='/adv-step3'>
-          <button type="button" className="btn btn-default">S2</button>        
         </Step2>
     )
   }

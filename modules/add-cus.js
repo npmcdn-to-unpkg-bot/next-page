@@ -23,7 +23,6 @@ export class Cus2 extends React.Component {
   render() {
     return (
         <Step2 t1='客製化設定' t2='設定負責群組/Beacon' back='/' prev='/cus-step1' next='/cus-step3'>
-          <button type="button" className="btn btn-default">S2</button>        
         </Step2>
     )
   }

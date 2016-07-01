@@ -23,7 +23,6 @@ export class Loc2 extends React.Component {
   render() {
     return (
         <Step2 t1='定位設定' t2='設定負責群組/Beacon' back='/' prev='/loc-step1' next='/loc-step3'>
-          <button type="button" className="btn btn-default">S2</button>        
         </Step2>
     )
   }

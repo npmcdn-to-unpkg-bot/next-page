@@ -20,7 +20,7 @@ class SetTime extends React.Component {
 
   render() {
     const {date, format, mode, inputFormat} = this.state;
-    <DateTimeField
+    return <DateTimeField
       dateTime={date}
       format={format}
       viewMode={mode}

@@ -11,10 +11,10 @@ class App extends React.Component {
           </div>
 
           <ul role="nav">
-            <li><Link to="/std-step1">新增一般事件</Link></li>
-            <li><Link to="/adv-step1">新增廣告事件</Link></li>
-            <li><Link to="/cus-step1">新增客製化事件</Link></li>
-            <li><Link to="/loc-step1">新增定位事件</Link></li>
+            <li><Link to="/1/1">新增一般事件</Link></li>
+            <li><Link to="/2/1">新增廣告事件</Link></li>
+            <li><Link to="/4/1">新增客製化事件</Link></li>
+            <li><Link to="/3/1">新增定位事件</Link></li>
           </ul>
         {/* add this */}
         {this.props.children}

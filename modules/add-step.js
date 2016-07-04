@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Step1, Step2, Step3, Step4, Step5 } from './pagelayout';
+import store from './store';
 
 export class AddStep extends React.Component {
     constructor(props) {
@@ -27,31 +28,32 @@ export class AddStep extends React.Component {
         var next = '/'+ev.toString() + '/' + type.steps[(stepIndex+1) % type.steps.length];
         switch (id) {
             case 1:
-                return <Step1 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} 
+                //store.clear();
+                return <Step1 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} store={store} 
                               back='/' prev={prev} 
                                        next={next}>
                             <button type="button" className="btn btn-default">{this.state.btns[id-1]}</button>
                        </Step1>;
             case 2:
-                return <Step2 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} 
+                return <Step2 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} store={store}
                               back='/' prev={prev} 
                                        next={next}>
                             <button type="button" className="btn btn-default">{this.state.btns[id-1]}</button>
                        </Step2>;
             case 3:
-                return <Step3 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} 
+                return <Step3 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} store={store}
                               back='/' prev={prev} 
                                        next={next}>
                             <button type="button" className="btn btn-default">{this.state.btns[id-1]}</button>
                        </Step3>;
             case 4:
-                return <Step4 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} 
+                return <Step4 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} store={store}
                               back='/' prev={prev} 
                                        next={next}>
                             <button type="button" className="btn btn-default">{this.state.btns[id-1]}</button>
                        </Step4>;
             case 5:
-                return <Step5 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} 
+                return <Step5 t1={this.state.types[ev-1].name} t2={this.state.steps[id-1]} store={store}
                               back='/' prev={prev} 
                                        next={next}>
                             <button type="button" className="btn btn-default">{this.state.btns[id-1]}</button>

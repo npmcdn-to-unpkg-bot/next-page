@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
 import './app.scss';
+import store from './store';
 
 class Home extends React.Component {
   render() {
+    store.clear();
     return (
         <div className="container">
           <div className="row tex-left">

@@ -59,7 +59,10 @@ class SetBeacon extends React.Component {
   updateDistance(e) {
     // 0~3: 2m 4m 6m broadcasting
     this.setState({distance: e.target.value });
-  }  
+  }
+  getValue(){
+    return this.state;
+  }
   render() {
     return (
       <div className="row text-left">     

@@ -6,7 +6,7 @@ class SetTime extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: "1990-06-05",
+      date: this.props.date || "2016-07-04",
       format: "YYYY-MM-DD",
       inputFormat: "DD/MM/YYYY",
       mode: "date"
@@ -18,9 +18,13 @@ class SetTime extends React.Component {
     this.setState({date: newDate});
   }
 
+  getValue(){
+    return this.state.date;
+  }
+
   render() {
     const {date, format, mode, inputFormat} = this.state;
-    <DateTimeField
+    return <DateTimeField
       dateTime={date}
       format={format}
       viewMode={mode}

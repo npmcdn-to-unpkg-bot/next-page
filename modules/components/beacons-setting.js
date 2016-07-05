@@ -6,9 +6,9 @@ class Choose extends React.Component {
   render() {
     return (
       <div>
-        <input type="radio" name="trigType" value="0" onChange={this.props.update} />靠近
-        <input type="radio" name="trigType" value="1" onChange={this.props.update} />遠離
-        <input type="radio" name="trigType" value="2" onChange={this.props.update} />停留
+        <input type="radio" name="trigType" value="靠近" onChange={this.props.update} />靠近
+        <input type="radio" name="trigType" value="遠離" onChange={this.props.update} />遠離
+        <input type="radio" name="trigType" value="停留" onChange={this.props.update} />停留
         <input type="text"  name="stayTime" onChange={this.props.update}/> 秒
       </div>
     );

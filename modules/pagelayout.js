@@ -36,7 +36,7 @@ export class Step1 extends React.Component {
             <div>Step 01 --{this.props.t2}</div>
             <div className="col-sm-12 col-md-6">
               <label htmlFor="eventTitle">請輸入事件標題</label>
-              <input type="text" ref="title" value={store.event.title} className="form-control" id="eventTitle" />
+              <input type="text" ref="title" defaultValue={store.event.title} className="form-control" id="eventTitle" />
             </div>
             <div className="col-sm-12 col-md-6">
               <label htmlFor="eventAction">請選擇查看訊息後需執行之動作</label>
@@ -58,10 +58,10 @@ export class Step1 extends React.Component {
             </div>
             <div className="col-sm-12 col-md-6">
               <label htmlFor="eventApp">請選擇Application ID</label>
-              <input type="text" ref="iOSId" value={store.event.iOSId} className="form-control" id="eventApp" placeholder="iOS ID" />
-              <input type="text" ref="androidId" value={store.event.androidId} className="form-control" id="eventApp" placeholder="Android ID" />
+              <input type="text" ref="iOSId" defaultValue={store.event.iOSId} className="form-control" id="eventApp" placeholder="iOS ID" />
+              <input type="text" ref="androidId" defaultValue={store.event.androidId} className="form-control" id="eventApp" placeholder="Android ID" />
               <label htmlFor="eventTitle">請選擇觸發事件之人員</label>
-              <input type="text" ref="personnel" value={store.event.personnel} className="form-control" id="eventTitle" />
+              <input type="text" ref="personnel" defaultValue={store.event.personnel} className="form-control" id="eventTitle" />
             </div>
           </div>
         </div>

@@ -14,7 +14,6 @@ class SetTime extends React.Component {
   }
 
   handleChange(newDate) {
-    console.log("newDate", newDate);
     this.setState({date: newDate});
   }
 

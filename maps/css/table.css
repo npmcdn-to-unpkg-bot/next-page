@@ -1,0 +1,105 @@
+.table_style {
+	width: 100%;
+	margin-top: 10px;
+	border-top-style: dashed;
+	border-color: #cccccc;
+	border-width: 1px;
+}
+
+.table_style thead tr th  {
+	padding: 2px;
+	border-bottom-style: dashed;
+	border-color: #cccccc;
+	border-width: 1px;
+}
+
+.table_style tbody tr td  {
+	padding: 2px;
+	border-bottom-style: dashed;
+	border-color: #cccccc;
+	border-width: 1px;
+	text-align: center;
+}
+
+.table_style tbody tr td  ul {
+	list-style-type: none;
+}
+.table_style tbody tr td  ul  li {
+	padding-left: 0px;
+	text-align: left;
+}
+
+#group_table {
+	width: 100%;
+}
+
+#detail_table {
+	width: 100%;
+	padding: 2px;
+}
+
+.inborder {
+	padding-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+/*	border-style: solid;
+	border-color: #cccccc;
+	border-width: 1px;	*/
+	border-bottom: dashed #cccccc 1px;
+}
+
+.ul_style_none {
+	list-style-type: circle;
+}
+
+.ul_style_none li {
+}
+
+.ui-state-off {
+	opacity: .35;
+	filter: Alpha(Opacity=35); /* support: IE8 */
+}
+
+.ui-nonpointer-button {
+	display: inline-block;
+	position: relative;
+	padding: .4em;
+	line-height: normal;
+	margin-right: .1em;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible; /* removes extra width in IE */
+	text-decoration: none;
+	line-height: normal;
+}
+
+.map-mode-menu {
+	width: 250px;
+}
+
+.mapmode-map-block-layout {
+	position: absolute;
+	left: 280px;
+}
+
+.dialog-map-block-layout {
+	position: absolute;
+}
+
+.zoom-block-layout {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.micro-map-block-layout {
+	position: absolute;
+	left: 35px;
+	top: 0px;
+}
+
+.background-rgba {
+	background: rgba(255, 255, 255, 0.7);
+}
+.background-rgba-dk {
+	background: rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>Micro-Map</title>
+	<link href="jquery-ui-1.11.4.Flick/jquery-ui.css" rel="stylesheet">
+	<link href="css/jquerystyle.css" rel="stylesheet">
+	<link href="css/table.css" rel="stylesheet">
+</head>
+<body>
+	<p>
+		<select id="select_mapid"></select>
+	</p>
+	<!-- micro-map block -->
+	<div id="div_micro_map" style="display: none;">
+		<!-- loading process -->
+		<div id="div_micro_map-loading">
+			<img src="img/load.gif"></img>
+		</div>
+		<!-- micro-map -->
+		<div style="position: absolute;">
+			<!-- zoom-in-out -->
+			<div class="zoom-block-layout" id="div_micro_map-zoom" style="display: none;">
+				<img id="div_micro_map-zoomin" src="img/zoom-in.png" width="25" style="position: absolute; left: 0px; top: 0px;"><img>
+				<img id="div_micro_map-zoomout" src="img/zoom-out.png" width="25" style="position: absolute; left: 0px; top: 25px;"><img>
+			</div>
+			<div class="micro-map-block-layout" id="div_micro_map-micromap"></div>
+			<div class="micro-map-block-layout" id="div_micro_map-poi"></div>
+		</div>
+	</div>
+
+	<script src="jquery-ui-1.11.4.Flick/external/jquery/jquery.js"></script>
+	<script src="jquery-ui-1.11.4.Flick/jquery-ui.js"></script>
+	<script src="js/hashtable.js"></script>
+	<script src="js/micro-map.js"></script>
+	<script>
+		var Server = "https://testbed.hisales.hinet.net/";
+		var MicroMapService = "MicroMap/MicroMapService.asmx/";
+		if( document.URL.indexOf( "https://testbed.hisales.hinet.net/" ) != -1 ) {
+			Server = "https://testbed.hisales.hinet.net/";
+		}
+		getMapUnitByProject( "1noBqOrA6rlCrAO8W8ssae0fgmpB4lI%2fjNcln%2f4JuyaV70qNACHfwImeI4zYcQvPmKuFo19L%2b%2bdodDS27hf3QOdgsHF1XXYghCO5TYCBhKMGGS2%2fDKC2XsSa9It8TWDlUmMCwcMnirfW92TBdcLMcg%3d%3d", "hty_project" );
+		// getMicroMap("1noBqOrA6rlCrAO8W8ssae0fgmpB4lI%2fjNcln%2f4JuyaV70qNACHfwImeI4zYcQvPmKuFo19L%2b%2bdodDS27hf3QOdgsHF1XXYghCO5TYCBhKMGGS2%2fDKC2XsSa9It8TWDlUmMCwcMnirfW92TBdcLMcg%3d%3d", '100' , "div_micro_map", [ 10, 50, 100 ], [ 100, 50, 10 ]);
+		setBeaconOnMicroMap( "1noBqOrA6rlCrAO8W8ssae0fgmpB4lI%2fjNcln%2f4JuyaV70qNACHfwImeI4zYcQvPmKuFo19L%2b%2bdodDS27hf3QOdgsHF1XXYghCO5TYCBhKMGGS2%2fDKC2XsSa9It8TWDlUmMCwcMnirfW92TBdcLMcg%3d%3d", "100", "div_micro_map", [ ], [ ] );
+	</script>
+</body>
+</html>

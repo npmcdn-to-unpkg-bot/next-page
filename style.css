@@ -1,12 +1,177 @@
-.xxx {
-    border-radius: 2px;
-    background: #fed;
-    padding: 20px; 
-}
-
 body {
-    font-family: "Comic Sans MS","微軟雅黑", "Helvetica Neue";
-    margin: 4em;
+    background-color:#3C4264;
+    font-family: "微軟正黑體";
 }
 
+th {
+    background-color:#BBE8FD;
+    border: 3px solid white;
+}
 
+td {
+    border: 3px solid white;
+}
+
+.account {
+    width:100%;
+}
+
+input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
+.app-title {
+    display: inline-block;
+    color:white;
+    font-size:large;
+    font-weight: bolder;
+    padding:0;
+}
+
+.title-text {
+    display: inline-block;
+    padding:10px;
+}
+
+.top-menu {
+    display: inline-block;
+    width: 65px;
+    height: 100%;
+    background-color:#4A90E2;
+}
+
+.dd-menu {
+    position:absolute;
+}
+
+#login-container {
+    display: block;
+    width:50%;
+    padding-top:150px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.btn-larger {
+    font-size: 16px;
+    display: inline-block;
+    width: 64px;
+    height: 34px;
+}
+
+.warning {
+    color:red;
+}
+
+.small {
+    font-size: 12px;
+}
+
+.command-buttons {
+    display: inline-block;
+    padding: 7px;
+}
+
+.link {
+    color:blue;
+    cursor: pointer;
+}
+
+.search-box {
+    padding: 10px;
+    float:right;
+    margin-right:20px;
+}
+
+.keyword {
+    width: 200px;
+}
+
+.step-header {
+    color:white;
+    background-color:#2E303B;
+    padding-top:15px;
+    height: 80px;
+    font-size:18px;
+    border-bottom: 4px solid #F5A623;
+}
+
+.step-container {
+    display: block;
+    background-color: white !important;
+    color:black;
+}
+
+.step {
+}
+
+.step-buttons {
+    padding:20px;
+}
+
+.step-form-container {
+    display: block;
+    width: 100%;
+}
+
+.step-input-container {
+    border-radius: 4px;
+    background-color: #F1F1F1;
+    padding:10px;
+    margin-bottom: 10px;
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+.project-title {
+    color:white;
+}
+
+.project-list {
+    background-color: white;
+    padding: 10px;
+    width: 250px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.project-list div {
+    cursor:pointer;
+    border-bottom: 1px solid grey;
+}
+
+.list-container {
+    background-color: white;
+    height:100%;
+}
+
+.circular-button {
+    display: inline-block;
+    color:white;
+    background-color:#F5A623;
+    width: 30px;
+    height: 30px;
+    border-radius:15px;
+    line-height: 30px;
+    vertical-align: middle;
+    cursor: pointer;
+    /*overflow:hidden;*/
+}
+
+.step-highlight {
+    background-color:#FF0084;
+}
+
+.btn-cancel {
+    background-color:white;
+    color:black;
+}
+
+.event-content {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}

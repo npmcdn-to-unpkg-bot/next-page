@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>建立地圖</title>
+<script type="text/javascript" src="https://mapbc.hisales.hinet.net/IntegratedMapService/GetAPI.aspx?key=AHHV3ggCaN5mU3skrkt8ptlZ4hzFNukMFcppx2h6vDPzSdfB!!z5-8AHQAAPvwAAAAAAAAAAAAAVAAAAAAAAIDXNAEDpXA==&ver=2"></script>
+<script language="JavaScript" type="text/javascript">
+var map;
+function loadMap() {
+    //宣告地圖
+    map = new CMap(document.getElementById("map"));
+    //宣告經緯度座標
+    var ll = new CLatLng(25.0476, 121.5170);
+    //設定地圖中心點及比例尺(必要！)
+    map.setCenter(ll, 9);
+    
+    //設定地圖控制項-比例尺圖示
+    map.addControl(C_SCALE_CTRL);
+    //設定地圖控制項-縮放按鈕及滑桿
+    map.addControl(C_LARGE_ZOOM_V);
+    
+    //開啟滾輪縮放地圖設定
+    map.enableScrollWheelZoom();    
+}
+</script>
+</head>
+<body onload="loadMap()" onunload="CUnload()">
+<div id="map" style="width:600px; height:500px; border:1px solid #000;"></div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import config from '../config';
 class CHTTLService {
     constructor() {
         this.baseUrl = config.baseUrl;
+        this.mapUrl = config.mapUrl;
     }
 
     login(account, password) {
@@ -19,6 +20,24 @@ class CHTTLService {
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 method: 'POST',
                 data: $.param({ Account: account, Password: password }),
+                success: resolve,
+                error: reject
+            });
+        });
+    }
+
+    getBeaconGroups(licenseKey, parameter) {
+        var Promise = promise.Promise;
+        var m = this;
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: m.baseUrl + '/getBeaconGroupByParameter',
+                cache: false,
+                processData: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                method: 'POST',
+                data: $.param({ LicenseKey: licenseKey, Parameter: parameter }),
                 success: resolve,
                 error: reject
             });
@@ -114,6 +133,42 @@ class CHTTLService {
             });
         });
     }
+
+    getMapsByProject(sessionId,projectId){
+        var Promise = promise.Promise;
+        var m = this;
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: m.mapUrl + '/getMapUnitByProject',
+                cache: false,
+                processData: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                method: 'POST',
+                data: $.param({ SessionId: sessionId, ProjectId:projectId }),
+                success: resolve,
+                error: reject
+            });
+        });        
+    }
+
+    getMicroMap(sessionId, mapId) {
+        var Promise = promise.Promise;
+        var m = this;
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: m.mapUrl + '/getMicroMap',
+                cache: false,
+                processData: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                method: 'POST',
+                data: $.param({ SessionId: sessionId, MapID: mapId }),
+                success: resolve,
+                error: reject
+            });
+        });
+    }    
 }
 
 const chttlService = new CHTTLService();

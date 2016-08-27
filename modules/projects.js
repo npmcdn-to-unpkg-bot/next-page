@@ -9,13 +9,22 @@ export default class Projects extends React.Component {
 
     selectProject(project){
         store.setProject(project);
-        hashHistory.push('/list');
+        hashHistory.push('/orgs');
     }
 
     render(){
         let m = this;
         let user = store.getUser();
         if(!user) hashHistory.push('/');
+        else {
+            if(user.mProjectInfoList&& user.mProjectInfoList.ProjectInfo){
+                //只有一個專案, 直接設定, 轉置場域選擇
+                if(!(user.mProjectInfoList.ProjectInfo.length > 1)){
+                    store.setProject(user.mProjectInfoList.ProjectInfo);
+                    hashHistory.push('/orgs');
+                }
+            }
+        }
 
         return <div>
             <div className="project-title text-center">

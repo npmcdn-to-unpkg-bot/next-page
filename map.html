@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>建立地圖</title>
-<script type="text/javascript" src="https://mapbc.hisales.hinet.net/IntegratedMapService/GetAPI.aspx?key=AHHV3ggCaN5mU3skrkt8ptlZ4hzFNukMFcppx2h6vDPzSdfB!!z5-8AHQAAPvwAAAAAAAAAAAAAVAAAAAAAAIDXNAEDpXA==&ver=2"></script>
+<script type="text/javascript" src="https://mapbc.hisales.hinet.net/IntegratedMapService/GetAPI.aspx?key=TuFP1QgCsffQW0tm!T9qL6zZe uUsU-3XBqVSHm4bYztQ5ReK01eJ-8AHYAAPvwAAAAAAAAAAABQUAAAAABQAYZ19AMCEbw==&ver=2"></script>
 <script language="JavaScript" type="text/javascript">
 var map;
 function loadMap() {
@@ -13,6 +13,9 @@ function loadMap() {
     var ll = new CLatLng(25.0476, 121.5170);
     //設定地圖中心點及比例尺(必要！)
     map.setCenter(ll, 9);
+
+    var mkr1 = new CMarker(new CLatLng(25.04758, 121.5170));
+    map.addOverlay(mkr1);
     
     //設定地圖控制項-比例尺圖示
     map.addControl(C_SCALE_CTRL);
@@ -20,11 +23,34 @@ function loadMap() {
     map.addControl(C_LARGE_ZOOM_V);
     
     //開啟滾輪縮放地圖設定
-    map.enableScrollWheelZoom();    
+    map.enableScrollWheelZoom();
+
+        //地標1加入資訊視窗事件
+    CEvent.addListener(mkr1, "mouseover", function (eventmkr) { this.openInfoWindow("hi!資訊視窗可以加入 <div style=\"background-color:#82FF82\">html tag </div>"); });
+    
+    //宣告可移動的地標2，此處僅宣告為'可'啟動拖曳
+    var mkr2 = new CMarker(new CLatLng(25.04762, 121.5172), {clickable: true, draggable: true});
+    //啟動拖曳
+    mkr2.enableDragging();
+    map.addOverlay(mkr2);
+    //設定地標文字(需先將地標加至地圖上、文字僅呈現在圖示範圍內，超過則切除，有 text, textleft, texttop, textsize, textcolor 等屬性)
+    mkr2.setText({text:"地標文字欄位", textcolor:"#00FFFF", textsize:3});
+    
+    //宣告一自訂圖示
+    var myIcon = new CIcon();
+    myIcon.image = "./img1.png";
+    myIcon.iconSize = new CSize(20, 20);//圖示大小
+    myIcon.iconAnchor = new CPoint(20, 20);//圖示位移量
+    myIcon.infoWindowAnchor = new CPoint(0, 0);//資訊視窗位移量(依據 icon 位移後)
+    
+    //宣告自訂圖示的地標3
+    var mkr3 = new CMarker(new CLatLng(25.04764, 121.5168), {icon: myIcon, title: '自建地標圖示', clickable: true, draggable: false});
+    CEvent.addListener(mkr3, "mouseover", function (eventmkr) { this.openInfoWindow("地標3"); });
+    map.addOverlay(mkr3);    
 }
 </script>
 </head>
 <body onload="loadMap()" onunload="CUnload()">
-<div id="map" style="width:600px; height:500px; border:1px solid #000;"></div>
+<div id="map" style="width:100%; height:80vh; border:1px solid #000;"></div>
 </body>
 </html>

@@ -12,6 +12,24 @@ td {
     border: 3px solid white;
 }
 
+input[type=date] {
+    width: 125px;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+input[type=date]::-webkit-clear-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
 .account {
     width:100%;
 }
@@ -19,6 +37,31 @@ td {
 input[type="checkbox"] {
     width: 15px;
     height: 15px;
+}
+
+.btn-container {
+    display: block;
+    width: 80px;
+}
+
+.modal-overlay {
+    box-shadow: 0px 4px 18px 3px rgba(0, 0, 0,0.4); 
+}
+
+.overlay-option {
+    margin-left:auto;
+    margin-right:auto;
+    font-size:20px;
+    text-align: center;
+    line-height: 50px;
+    width: 180px;
+    height: 50px;
+    box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.3);
+    background-color:white;
+    margin-bottom: 15px;
+    z-index:1000;    
+    opacity: 1;
+    cursor: pointer;
 }
 
 .app-title {
@@ -39,6 +82,7 @@ input[type="checkbox"] {
     width: 65px;
     height: 100%;
     background-color:#4A90E2;
+    cursor: pointer;
 }
 
 .dd-menu {
@@ -60,8 +104,12 @@ input[type="checkbox"] {
     height: 34px;
 }
 
-.warning {
+.expire {
     color:red;
+}
+
+.caution {
+    color:orange;
 }
 
 .small {
@@ -73,15 +121,31 @@ input[type="checkbox"] {
     padding: 7px;
 }
 
+.command-buttons span {
+    height: 20px;
+}
+
 .link {
     color:blue;
     cursor: pointer;
 }
 
 .search-box {
+    display: block;
     padding: 10px;
+    padding-bottom: 0;
+    padding-top: 0;
     float:right;
     margin-right:20px;
+    line-height: 30px;
+}
+
+.search-field {
+    padding:5px;
+}
+
+.search-button {
+    cursor: pointer;
 }
 
 .keyword {
@@ -101,9 +165,6 @@ input[type="checkbox"] {
     display: block;
     background-color: white !important;
     color:black;
-}
-
-.step {
 }
 
 .step-buttons {
@@ -146,6 +207,10 @@ input[type="checkbox"] {
     height:100%;
 }
 
+.sorting {
+    background-color:#00C2E8;
+}
+
 .circular-button {
     display: inline-block;
     color:white;
@@ -174,4 +239,87 @@ input[type="checkbox"] {
 
 .hidden {
     display: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.tabbar {
+    display: inline-block;
+    width: 240px;
+    border-bottom:2px solid #4A90E2;
+    vertical-align: bottom;
+    background-color: white;
+}
+
+.topbar {
+    width: 100%;
+    display: inline-block;
+}
+
+.highlight-tab {
+    display: block;
+    border:2px solid #4A90E2;
+    border-bottom: none;
+    border-radius: 4px 3px 0 0; 
+    font-size:20px;
+    color:#4A90E2;
+    padding:7px;
+    padding-left:10px;
+    padding-right:10px;
+    width: 115px;
+    height: 40px;
+    float:left;
+    cursor: pointer;
+    text-align: center;
+}
+
+.normal-tab {
+    display: block;    
+    border-radius: 4px 3px 0 0;     
+    font-size:20px;
+    color:#A9A9A9;
+    padding:7px;
+    padding-left:10px;
+    padding-right:10px;    
+    width: 115px;
+    height: 40px;
+    float:left;
+    cursor: pointer;
+    text-align: center;        
+}
+
+.float-left {
+    float:left;
+}
+
+.float-right {
+    float:right;
+}
+
+.clear {
+    clear:both;
+}
+
+.mdl-eventtype {
+    background:#00C2E8 !important;
+}
+
+.mdl-checkbox-container {
+    display: block;
+    width:56px;
+    height:56px;
+    line-height: 56px;
+    padding-left:20px;
+}
+
+.fit-block {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-container {
+    width:100%;
+    height:50vh;
 }

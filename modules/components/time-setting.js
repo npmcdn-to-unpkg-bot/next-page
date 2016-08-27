@@ -7,8 +7,8 @@ class SetTime extends React.Component {
     super(props);
     this.state = {
       date: this.props.date || "2016-07-04",
-      format: "YYYY-MM-DD",
-      inputFormat: "DD/MM/YYYY",
+      format: "YYYY/MM/DD",
+      inputFormat: "YYYY/MM/DD",
       mode: "date"
     };
   }

@@ -5,6 +5,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Home from './Home'
 import { AddStep } from './add-step'
 import DropDownList from './components/dropdownlist';
+import BeaconMap from './components/beacon-map';
+import TopMenu from './components/top-menu';
+import constants from '../constants';
 import store from './store';
 import menuimg from '../images/menu.png';
 
@@ -12,7 +15,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isMenuOpen: false
+      isMenuOpen: false,
+      userType: ''
     }
   }
 
@@ -22,7 +26,13 @@ class App extends React.Component {
   }
 
   toggle() {
-    this.setState({ isMenuOpen: !this.state.isMenuOpen });
+    let project = store.getProject();
+    let userType = '';
+    if(project) userType = project.ProjectOwnershipTag || '';
+
+    console.log('toggle', project,userType);
+    
+    this.setState({ isMenuOpen: !this.state.isMenuOpen, userType: userType });
   };
 
   close() {
@@ -33,22 +43,19 @@ class App extends React.Component {
     console.log('You clicked an item');
   };
 
-  selectOrg(){
-    hashHistory.push('/projects');
+  selectCommand(command){
+    this.toggle();
+    if(command == '場域選擇') this.selectOrg();
+    else if(command == '登出') this.logout();
   }
 
-  addEvent(){
-    // alert('新增事件');
-    // hashHistory.push('/');
+  selectOrg() {
+    hashHistory.push('/orgs');
   }
 
-  logout(){
+  logout() {
     store.clear();
     hashHistory.push('/');
-  }
-
-  sayHello(){
-    alert('hello');
   }
 
   render() {
@@ -56,24 +63,21 @@ class App extends React.Component {
       isOpen: this.state.isMenuOpen,
       close: this.close.bind(this),
       align: 'right',
-      toggle:<div></div>,
+      toggle: <div></div>,
       openOnMouseover: true
     };
 
     let m = this;
 
     return <div>
+      <TopMenu isOpen={this.state.isMenuOpen} onChange={this.selectCommand.bind(this)} userType={this.state.userType} />
       <span className="app-title">
-      {
-        this.props.location.pathname != '/'?<span className="top-menu" onClick={this.addEvent.bind(this) } onMouseOver={this.toggle.bind(this) } onMouseOut={this.toggle.bind(this) }>
-          <img src={menuimg} />
-          <DropdownMenu className="dd-menu" {...menuOptions} >
-              <div onClick={this.selectOrg.bind(this)}>選擇場域</div>
-              <div onClick={this.logout.bind(this)}>登出</div>
-          </DropdownMenu>
-        </span>:""
-      }
-      &nbsp; 
+        {
+          this.props.location.pathname != '/' ? <span className="top-menu" onClick={this.toggle.bind(this)}>
+            <img src={menuimg} />
+          </span> : ""
+        }
+        &nbsp;
         <span className="title-text">中華RWD事件編輯App</span>
       </span>
       {this.props.children}

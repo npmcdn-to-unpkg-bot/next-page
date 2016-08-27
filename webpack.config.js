@@ -23,10 +23,15 @@ module.exports = {
         loader: 'style!css!sass'
       },
       {
+        test: /\.less$/,
+        loader: "style!css!less"
+      },
+      {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
         exclude: /node_modules/,
         loader: "file"
-      }
+      },
+      { test: /\.css$/, loader: "style-loader!css-loader" }
     ]
   },
 

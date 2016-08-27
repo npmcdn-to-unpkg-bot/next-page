@@ -1,6 +1,7 @@
 import chttlService from '../services/service';
 import xml2json from '../lib/xml2json';
 import EventEmitter from 'eventemitter';
+import constants from '../constants';
 const __emitter = new EventEmitter.EventEmitter();
 
 class Store {
@@ -44,6 +45,27 @@ class Store {
         });
     }
 
+    getBeaconGroups(licenseKey,org){
+        let parameter = '';
+        org = '';
+        parameter += 'Org:'+(org || '')+',';
+
+        console.log('store get beacon groups',licenseKey);
+        let m = this;
+        chttlService.getBeaconGroups(licenseKey,parameter).then(function(res){
+            var data = xml2json(res,'');
+            if(data){
+                data = JSON.parse(data);
+
+                if(data){
+                    __emitter.emit('GROUPS',data);
+                }
+            } else {
+            }
+             
+        });                
+    }
+
     getBeaconsByMap(licenseKey,projectId,mapId,beaconName){
         let parameter = '';
         if(projectId){
@@ -74,6 +96,38 @@ class Store {
 
     getBeaconsByParameter(){
 
+    }
+
+    getMapsByProject(licenseKey, projectId){
+        console.log('store get maps',licenseKey);
+        let m = this;
+        chttlService.getMapsByProject(licenseKey,projectId).then(function(res){
+            var data = xml2json(res,'');
+            if(data){
+                data = JSON.parse(data);
+
+                if(data){
+                    __emitter.emit('MAPS',data);
+                }
+            } else {
+            }             
+        });        
+    }
+
+    getMicroMap(licenseKey, mapId){
+        console.log('store get map',licenseKey);
+        let m = this;
+        chttlService.getMicroMap(licenseKey,mapId).then(function(res){
+            var data = xml2json(res,'');
+            if(data){
+                data = JSON.parse(data);
+
+                if(data){
+                    __emitter.emit('MAP',data);
+                }
+            } else {
+            }             
+        });        
     }
 
     getEvents(licenseKey, parameter){
@@ -165,21 +219,109 @@ class Store {
         })
     }
 
+    toggleEnableEvent(licenseKey, eventId, enabled){
+        console.log('store toggle event', licenseKey, eventId, enabled);
+
+        let m = this;
+
+        chttlService.updateEvent(licenseKey, eventId, 'Enable', enabled).then(function(res){
+            var data = xml2json(res,'');
+            if(data){
+                data = JSON.parse(data);
+
+                console.log('event toggled',data);
+
+                if(data && data.Information && data.Information.MessageCode == "0"){
+                    console.log('confirm updated');
+                    __emitter.emit('EVENT_UPDATED',data);
+                }
+            } else {
+            }
+        })
+    }
+
     _getKeyValueArrays(event){
         let keyArray = '';
         let valueArray = '';
 
-        keyArray = 'Name^AdAction'
-        valueArray = event.BeaconEventName + '^' + event.AdAction;
+        if(event.BeaconEventName){
+            keyArray = 'Name'
+            valueArray = event.BeaconEventName;
+        }
+
+        if(event.AdAction){
+            keyArray += '^AdAction';
+            valueArray += '^'+event.AdAction;
+        }
+
+        if(event.Action){
+            keyArray += '^Action';
+            valueArray += '^'+event.Action;
+        }
 
         if(event.BeaconIdList){
             keyArray += '^BeaconIdList';
             valueArray += '^'+event.BeaconIdList;
         }
 
+        if(event.BeaconGroupIdList){
+            keyArray += '^BeaconGroupIdList';
+            valueArray += '^'+event.BeaconGroupIdList;
+        }        
+
+        if(event.Title){
+            keyArray += '^Title';
+            valueArray += '^'+event.Title;
+        }
+
+        if(event.Text1){
+            keyArray += '^Text1';
+            valueArray += '^'+event.Text1;
+        }
+
+        if(event.Text2){
+            keyArray += '^Text2';
+            valueArray += '^'+event.Text2;
+        }
+
+        if(event.TargetContent){
+            keyArray += '^TargetContent';
+            valueArray += '^'+event.TargetContent;
+        }                
+
+        if(event.UserDefinedData){
+            keyArray += '^UserDefinedData';
+            valueArray += '^'+event.UserDefinedData;
+        }                
+
         if(event.AdActionText){
             keyArray += '^AdActionText';
             valueArray += '^'+event.AdActionText;            
+        }
+
+        if(event.Org){
+            keyArray += '^Org';
+            valueArray += '^'+event.Org;            
+        }
+
+        if(event.People){
+            keyArray += '^People';
+            valueArray += '^'+event.People;            
+        }
+
+        if(event.BeginDate){
+            keyArray += '^BeginDate';
+            valueArray += '^'+event.BeginDate;            
+        }
+
+        if(event.EndDate){
+            keyArray += '^EndDate';
+            valueArray += '^'+event.EndDate;            
+        }
+
+        if(event.WeekdayRule){
+            keyArray += '^WeekdayRule';
+            valueArray += '^'+constants.toDecimalWeekDayRule(event.WeekdayRule);            
         }
 
         return {keyArray:keyArray, valueArray:valueArray};
@@ -206,6 +348,23 @@ class Store {
         this._saveItem('user',JSON.stringify(user));
     }
 
+    // getUserType(){
+    //     let project = this.getProject();
+
+    //     if(!project) return null;
+    //     else {
+    //         let ownerShips = project.ProjectOwnship.OwnershipInfo.Ownership;
+
+    //         if(ownerShips.length > 0){
+
+    //         } else {
+    //             if(ownerships.StoreId) return '店家';
+    //             else
+
+    //         }         
+    //     }
+    // }
+
     getProject(){
         let project = this._getItem('project');
         console.log('get item project',project);
@@ -217,6 +376,19 @@ class Store {
 
     setProject(project){
         this._saveItem('project',JSON.stringify(project));
+    }
+
+    getOrg(){
+        let org = this._getItem('org');
+        console.log('get item org',org);
+        if(org) 
+            return JSON.parse(org);
+        else
+            return null;
+    }
+
+    setOrg(org){
+        this._saveItem('org',JSON.stringify(org));
     }
 
     newEvent(){

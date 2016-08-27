@@ -45,7 +45,7 @@ export default class StepContainer extends React.Component {
     switchStep(stepId) {
         let currentStep = this.refs['step' + this.state.stepId];
 
-        if(!currentStep.isValid()) return;
+        if (!currentStep.isValid()) return;
 
         if (currentStep && currentStep.saveEventData) {
             currentStep.saveEventData();
@@ -110,7 +110,7 @@ export default class StepContainer extends React.Component {
                 currentStep = <Step3 ref="step3" nextStep={this.nextStep.bind(this) } prevStep={this.prevStep.bind(this) } store={store}/>;
                 break;
             case '4':
-                currentStep = <Step4 ref="step4" nextStep={this.nextStep.bind(this) } prevStep={this.prevStep.bind(this) } publishEvent={this.publishEvent.bind(this)} store={store}/>;
+                currentStep = <Step4 ref="step4" nextStep={this.nextStep.bind(this) } prevStep={this.prevStep.bind(this) } publishEvent={this.publishEvent.bind(this) } store={store}/>;
                 break;
             case '5':
                 currentStep = <Step5 ref='step5' nextStep={this.nextStep.bind(this) } prevStep={this.prevStep.bind(this) } store={store}/>;
@@ -124,21 +124,28 @@ export default class StepContainer extends React.Component {
         let project = store.getProject();
 
         if (project) {
-            if (store.event.BeaconEventId) {
-                store.updateEvent(project.LicenseKey, store.event);
-            } else {
-                store.addEvent(project.LicenseKey, project.ProjectId, store.event);
+            let org = store.getOrg();
+
+            if (org) {
+                store.event.Org = org.Org;
+                if (store.event.BeaconEventId) {
+                    store.updateEvent(project.LicenseKey, store.event);
+                } else {
+                    store.addEvent(project.LicenseKey, project.ProjectId, store.event);
+                }
             }
+
         } else {
         }
     }
 
     render() {
         let currentStep = this.getCurrentStep(this.state.stepId);
+        let eventType = store.eventType;
 
         return <div className="step-container">
             <div className="step-header text-center">
-                <div>Step {this.state.stepId}</div>
+                <div>{eventType} Step {this.state.stepId}</div>
                 <div>{this.steps[this.state.stepId]}</div>
                 <StepSelector selectedStep={this.state.stepId} switchStep={this.switchStep.bind(this) } />
             </div>

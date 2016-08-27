@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+    <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+    <style>
+        #mapid {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid"></div>
+    <script>
+    var mymap = L.map('mapid',{
+            minZoom:1,
+            maxZoom:4,
+            crs: L.CRS.Simple
+        }).setView([0,0], 2);
+
+    var southWest = mymap.unproject([0, 1250], mymap.getMaxZoom()-1);
+    var northEast = mymap.unproject([2500, 0], mymap.getMaxZoom()-1);
+
+    var bounds = new L.LatLngBounds(southWest, northEast);
+    var viewport = document.getElementById('mapid');
+    var southWestPoint = mymap.latLngToLayerPoint(bounds._southWest);
+    var northEastPoint = mymap.latLngToLayerPoint(bounds._northEast);
+    var width = northEastPoint.x - southWestPoint.x;
+    var height = southWestPoint.y - northEastPoint.y;
+
+    width = Math.min(width, window.innerWidth * 0.9);
+    height = Math.min(height, window.innerHeight * 0.9);
+
+    // viewport.setAttribute("style","width:"+width+"px;height:"+height+"px;");
+    // viewport.style.width=width+'px';
+    // viewport.style.height=height+'px';
+
+    var imageUrl = 'https://ourcitylovewebapps.azurewebsites.net/hotelapp/images/google/1280644495%E8%AB%8B%E5%B0%87%E7%9B%B8%E6%A9%9F%E6%94%BE%E7%BD%AE%E6%88%BF%E9%96%93%E4%B8%AD%E5%A4%AE.jpg';
+
+    L.imageOverlay(imageUrl, bounds).addTo(mymap);
+    mymap.setMaxBounds(bounds);
+    //mymap.fitWorld(); 
+
+    L.marker([0,0]).addTo(mymap)
+		.bindPopup("Southwest").openPopup();
+
+    L.marker([bounds._southWest.lat/2,bounds._northEast.lng/2]).addTo(mymap)
+		.bindPopup("Southwest").openPopup();
+
+    L.marker([bounds._southWest.lat,bounds._northEast.lng]).addTo(mymap)
+		.bindPopup("Southwest").openPopup();
+    </script>
+</body>
+
+</html>

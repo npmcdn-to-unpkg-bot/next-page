@@ -1,6 +1,7 @@
 import React from 'react';
 import { Map, Marker, Popup, TileLayer, ImageOverlay } from 'react-leaflet';
 import Leaflet from 'leaflet';
+import GoogleLayer from './google-layer';
 import Modal from 'react-modal';
 
 export default class BeaconMap extends React.Component {
@@ -57,7 +58,7 @@ export default class BeaconMap extends React.Component {
             let northEast = map.unproject([this.props.map.width, 0], map.getMaxZoom() - 1);
             let bounds = new Leaflet.LatLngBounds(southWest, northEast);
 
-            map.setMaxBounds(bounds);
+            //map.setMaxBounds(bounds);
 
             console.log('resetting bounds', bounds);
 
@@ -67,18 +68,17 @@ export default class BeaconMap extends React.Component {
     }
 
     render() {
-        const position = [0, 0];
+        const position = [25.033493,121.564101];
         let {bounds} = this.state;
         let mapUrl = this.props.map.mapUrl;
 
         console.log(bounds);
         console.log(this.props.map);
 
-        return <div>{
-        this.props.map.mapUrl != ''?<Map ref="map" center={position} zoom={1} minZoom={1} maxZoom={4} crs={Leaflet.CRS.Simple} className="leaflet-container">
-            <ImageOverlay
-                url={mapUrl}
-                bounds={bounds} />
+        return <div>
+        {
+        this.props.map.mapUrl != ''?<Map ref="map" center={position} zoom={16} minZoom={1} maxZoom={20} crs={Leaflet.CRS.Simple} className="leaflet-container">
+            <GoogleLayer />
             <Marker position={position}>
                 <Popup>
                     <span>我是一個Marker</span>

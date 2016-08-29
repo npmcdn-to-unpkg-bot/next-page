@@ -31,9 +31,12 @@ class SingleSelect extends React.Component {
                 this.state.selectedItem = selectedItem;
             }
         }
+
+        this.isClicked = false;
     }
 
     handleChange(e){
+        this.isClicked = true;
         if(e.target.checked){
             var selectedValue = e.target.value;
             var options = Array.from(this.state.options);
@@ -68,6 +71,15 @@ class SingleSelect extends React.Component {
         return this.state.selectedItem;
     }
 
+    componentWillUpdate(nextProps,nextState){
+        if(this.isClicked){
+            this.isClicked = false;
+            if(this.props.onChange){
+                this.props.onChange(nextState.selectedValue);
+            }
+        }
+    }
+
     render(){
         var {isRadio} = this.props;
         if(this.props.options == null || this.props.options == [])
@@ -77,14 +89,14 @@ class SingleSelect extends React.Component {
           var m = this;
           return <div>
               {this.state.options.map(function(option, index) {
-                return  <div key={index} >
+                return  <span key={index} >
                           <input 
                               type    = {isRadio? 'radio':'checkbox'}
                               value   = {option.value}
                               checked = {option.selected} 
-                              onChange= {m.handleChange.bind(m)} />
-                          <span>{option.text}</span>
-                        </div>;
+                              onChange= {m.handleChange.bind(m)} />&nbsp;
+                          <span>{option.text}</span>&nbsp;
+                        </span>;
               })}
             </div>;
         }

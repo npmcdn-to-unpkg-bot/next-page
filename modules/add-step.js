@@ -7,6 +7,10 @@ import SetTime from "./components/time-setting";
 import BeaconSelector from './components/beacon-selector';
 import DropDownList from "./components/dropdownlist";
 import MultiSelect from "./components/multi-select";
+import TimeInput from './components/time-input';
+import PeriodInput from './components/period-input';
+import StatusSelector from './components/status-selector';
+import RangeSelector from './components/range-selector';
 import constants from "../constants";
 import getInputFormatDate from '../lib/utils';
 
@@ -191,10 +195,35 @@ export class Step2 extends React.Component {
         let beaconIdList = this.refs.beacons.getBeaconIdList();
         let beaconGroupIdList = this.refs.beacons.getBeaconGroupIdList();
 
-        console.log('beaconIdList', beaconIdList);
+        let status = this.refs.status.getValue();
+        let range = this.refs.range.getValue();
+
+        console.log(status,range); 
+
+        if(status){
+            store.event.NearRange = -1;
+            store.event.AwayRange = -1;
+            store.event.StayRange = -1;            
+
+            store.event.StayTime = status.stayTime;
+            switch(status.status){
+                case '靠近':
+                    store.event.NearRange = range;
+                    break;
+                case '遠離':
+                    store.event.AwayRange = range;
+                    break;                
+                case '停留':
+                    store.event.StayRange = range;
+                    break;                
+            }
+        }
+
+        console.log(store.event);
 
         store.event.BeaconIdList = beaconIdList;
         store.event.BeaconGroupIdList = beaconGroupIdList;
+
     }
 
     isValid() {
@@ -216,31 +245,42 @@ export class Step2 extends React.Component {
             return true;
     }
 
-    renderRow(record, index) {
-        return (
-            <tr key={index}>
-                <td><input type="checkbox" value={record.GID} checked={record.selected} onChange={(e) => this.handleSelect(e, record, this) }></input></td>
-                <td>{record.GID}</td>
-                <td>{record.OID}</td>
-                <td>{record.GName}</td>
-                <td><button>Beacons</button></td>
-            </tr>
-        );
-    }
-
     render() {
         let {store} = this.props;
         let {records} = this.state;
+        let status = '靠近';
+        let stayTime = store.event.StayTime;
+        let range = 6; //預設距離遠
+
+        if(store.event.NearRange > 0){
+            status = '靠近';
+            range = store.event.NearRange;
+        } else if(store.event.AwayRange > 0){
+            status = '遠離';
+            range = store.event.AwayRange;
+        } else if(store.event.StayRange > 0){
+            status = '停留';
+            range = store.event.StayRange;
+        } else {
+            status = '靠近';
+            range = 6;
+        }
 
         return <div className="step">
             <br/>
             <div className="container step-form-container">
-                <BeaconSelector ref="beacons" beaconIdList={store.event.BeaconIdList} beaconGroupIdList={store.event.BeaconGroupIdList} />
-                <div>
-                    Google Map (reserved)
+                <BeaconSelector ref="beacons" event={store.event} />
+                <div className="row">
+                    <div className="col-md-1"></div>
+                    <div className="col-sm-12 col-md-offset-1 col-md-5 step-input-container">
+                        <label htmlFor="setTime">請輸入觸發Beacon事件之距離</label><br/>
+                        <StatusSelector ref="status" status={status} stayTime={stayTime} />
+                    </div>
+                    <div className="col-sm-12 col-md-5 step-input-container">
+                        <label>選擇距離</label><br/>
+                        <RangeSelector ref="range" range={range} />
+                    </div>
                 </div>
-
-                <SetBeacon ref="beacon" />
 
                 <div className="row step-buttons">
                     <div className="col-sm-4"></div>
@@ -258,16 +298,6 @@ export class Step2 extends React.Component {
         </div>
     }
 }
-Step2.defaultProps = {
-    initialRecords: [
-        { GID: "881", OID: "無障礙應用", GName: "中華行分(行分活動用)", lat: 44.54, lng: -78.546, selected: false },
-        { GID: "882", OID: "無障礙應用", GName: "中華行分(台北信義區)", lat: 121.33, lng: 25.020, selected: false },
-        { GID: "883", OID: "無障礙應用", GName: "中華行分(三峽)", lat: 121.22, lng: 24.560, selected: false },
-        { GID: "1040", OID: "OurCityLove", GName: "關西服務區(盥洗室服務中心指示牌)", lat: 121.10, lng: 24.48, selected: false },
-        { GID: "1046", OID: "OurCityLove", GName: "關西服務區(用餐優先席櫃台前圓桌)", lat: 121.10, lng: 24.48, selected: false },
-        { GID: "1047", OID: "OurCityLove", GName: "關西服務區(噴水室路燈)", lat: 121.10, lng: 24.48, selected: false }
-    ]
-};
 
 export class Step3 extends React.Component {
     constructor(props) {
@@ -278,10 +308,16 @@ export class Step3 extends React.Component {
         const store = this.props.store;
         let beginDate = this.refs.beginDate.value;
         let endDate = this.refs.endDate.value;
+        let beginTime = this.refs.beginTime.getTime();
+        let endTime = this.refs.endTime.getTime();
+        let period = this.refs.period.getValue();
         let weekDayRule = constants.toWeekDayRule(this.refs.weekDays.getSelectedValues());
 
         store.event.BeginDate = beginDate;
         store.event.EndDate = endDate;
+        store.event.BeginTime = beginTime;
+        store.event.EndTime = endTime;
+        store.event.Period = period;
         store.event.WeekdayRule = weekDayRule;
     }
 
@@ -298,6 +334,13 @@ export class Step3 extends React.Component {
 
         if (!store.event.EndDate) {
             store.event.EndDate = new Date(store.event.BeginDate).addMonths(1).toLocaleDateString();
+        }
+
+        if (!store.event.Period) {
+            if(store.eventType == '定位事件'){
+                store.event.Period = 1;
+            } else
+                store.event.Period = 86400;
         }
 
         if (!store.event.WeekdayRule)
@@ -322,6 +365,16 @@ export class Step3 extends React.Component {
                                 return { text: w, value: w }
                             })
                         } selectedValues={constants.getWeekDays(store.event.WeekdayRule).split(',') } />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-1"></div>
+                    <div className="col-sm-12 col-md-offset-1 col-md-5 step-input-container">
+                        <label htmlFor="setTime">請輸入Beacon之執行事件時間</label><br/>
+                        執行間距 <PeriodInput ref="period" className="period" period={store.event.Period} /> <br/>
+                        啟動時間 &nbsp; <TimeInput ref="beginTime" time={store.event.BeginTime} />
+                        結束時間 &nbsp; <TimeInput ref="endTime" time={store.event.EndTime} />
                     </div>
                 </div>
 
@@ -389,6 +442,42 @@ export class Step4 extends React.Component {
                 break;
         }
 
+        let status = '靠近';
+        let stayTime = store.event.StayTime;
+        let range = 6; //預設距離遠
+
+        if(store.event.NearRange > 0){
+            status = '靠近';
+            range = store.event.NearRange;
+        } else if(store.event.AwayRange > 0){
+            status = '遠離';
+            range = store.event.AwayRange;
+        } else if(store.event.StayRange > 0){
+            status = '停留';
+            range = store.event.StayRange;
+        } else {
+            status = '靠近';
+            range = '6';
+        }
+
+        switch(range){
+            case '2':
+                range = '近';
+                break;
+            case '4':
+                range = '中';
+                break;
+            case '6':
+                range = '遠';
+                break;
+            case '999':
+                range = '廣播';
+                break;
+            default:
+                range = '';
+                break;                
+        }        
+
         return <div className="step">
             <br/>
             <div className="container step-form-container">
@@ -425,6 +514,7 @@ export class Step4 extends React.Component {
                     </div>
                     <div className="col-sm-12 col-md-5 step-input-container">
                         <label htmlFor="eventAction">觸發Beacon執行之距離</label><br/>
+                        {status}距離{range} {status == '停留'?status+stayTime.toString()+'秒':''}
                     </div>
                 </div>
                 <div className="row">
@@ -439,8 +529,8 @@ export class Step4 extends React.Component {
                         {constants.getWeekDays(store.event.WeekdayRule) }
                     </div>
                     <div className="col-sm-12 col-md-5 step-input-container">
-                        <label htmlFor="eventAction">執行事件時間</label><br/>
-                        {store.event.date}
+                        <label htmlFor="eventAction">執行事件時間</label> {store.event.Period}秒 <br/>
+                        啟動時間 {store.event.BeginTime} &nbsp;&nbsp; 結束時間 {store.event.EndTime}
                     </div>
                 </div>
             </div>

@@ -33,9 +33,9 @@ export default class EventTypeButton extends React.Component {
             {
                 this.state.isSelected?
                 <span className="mdl-checkbox-container">
-                    <Checkbox checked="true" onClick={this.selectEvent.bind(this)} />
+                    <Checkbox checked="true" onClick={this.selectEvent.bind(this)} disabled={this.props.disabled} />
                 </span>:
-                <FABButton colored className="mdl-eventtype" onClick={this.selectEvent.bind(this)}>
+                <FABButton colored className="mdl-eventtype" onClick={this.selectEvent.bind(this)} disabled={this.props.disabled}>
                     {this.props.eventType}
                 </FABButton>
             }

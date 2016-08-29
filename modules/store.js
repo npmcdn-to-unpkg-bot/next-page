@@ -319,6 +319,41 @@ class Store {
             valueArray += '^'+event.EndDate;            
         }
 
+        if(event.BeginTime){
+            keyArray += '^BeginTime';
+            valueArray += '^'+event.BeginTime;            
+        }
+
+        if(event.EndTime){
+            keyArray += '^EndTime';
+            valueArray += '^'+event.EndTime;            
+        }
+
+        if(event.Period){
+            keyArray += '^Period';
+            valueArray += '^'+event.Period;            
+        }
+
+        if(event.NearRange){
+            keyArray += '^NearRange';
+            valueArray += '^'+event.NearRange;            
+        }
+
+        if(event.AwayRange){
+            keyArray += '^AwayRange';
+            valueArray += '^'+event.AwayRange;            
+        }                
+
+        if(event.StayRange){
+            keyArray += '^StayRange';
+            valueArray += '^'+event.StayRange;            
+        }                                     
+
+        if(event.StayTime){
+            keyArray += '^StayTime';
+            valueArray += '^'+event.StayTime;            
+        }                           
+
         if(event.WeekdayRule){
             keyArray += '^WeekdayRule';
             valueArray += '^'+constants.toDecimalWeekDayRule(event.WeekdayRule);            

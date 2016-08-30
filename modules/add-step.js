@@ -11,6 +11,7 @@ import TimeInput from './components/time-input';
 import PeriodInput from './components/period-input';
 import StatusSelector from './components/status-selector';
 import RangeSelector from './components/range-selector';
+import AdInputBox from './components/adinput';
 import constants from "../constants";
 import getInputFormatDate from '../lib/utils';
 
@@ -36,13 +37,32 @@ export class Step1 extends React.Component {
         var s = this.refs.action;
         var selectedAction = s.getSelectedValue();
 
-        if (store.eventType != '定位事件') {
-            store.event.BeaconEventName = this.refs.title.value;
-            store.event.Title = this.refs.title.value;
+        if (store.eventType == '廣告事件' && this.refs.adtitle) {
+            let adData = this.refs.adtitle.getAdValues();
+            console.log(store.event);
+            console.log(adData);
+            console.log('Text2',adData.Text2);
+            if (adData) {
+                store.event.BeaconEventName = adData.Title;
+                store.event.Title = adData.Title;
+                store.event.Text1 = adData.Text1;
+                store.event.Text2 = adData.Text2;
+                store.event.TitleColor = adData.TitleColor;
+                store.event.TitleBackgroundColor = adData.TitleBackgroundColor;
+                store.event.MainIconUrl = adData.imgUrl;
+                store.event.BackgroundIconUrl = adData.bgUrl;
+            }
         } else {
-            store.event.BeaconEventName = '';
-            store.event.Title = '';
+            if (store.eventType != '定位事件' && this.refs.title) {
+                store.event.BeaconEventName = this.refs.title.value;
+                store.event.Title = this.refs.title.value;
+            } else {
+                store.event.BeaconEventName = '';
+                store.event.Title = '';
+            }
         }
+
+        console.log(store.event);
 
         let contenttext = '';
         if (this.refs.content) contenttext = encodeURI(this.refs.content.value);
@@ -54,7 +74,7 @@ export class Step1 extends React.Component {
                 case '廣告事件':
                     store.event.AdAction = selectedAction;
                     store.event.AdActionText = actiontext;
-                    store.event.Text2 = contenttext;
+                    //store.event.Text2 = contenttext;
                     break;
                 case '定位事件':
                     store.event.UserDefinedData = actiontext;
@@ -72,11 +92,28 @@ export class Step1 extends React.Component {
     isValid() {
         let {store} = this.props;
 
-        if (!this.refs.title.value && store.eventType != '定位事件') {
-            alert('事件標題是必填欄位');
-            return false;
-        } else
-            return true;
+        switch (store.eventType) {
+            case '廣告事件':
+                if (this.refs.adtitle) {
+                    let adData = this.refs.adtitle.getAdValues();
+                    if (!adData || !adData.Title) {
+                        alert('事件標題是必填欄位');
+                        return false;
+                    }
+                }
+                break;
+            case '定位事件':
+                return true;
+            case '客製化事件':
+                if (this.refs.title && !this.refs.title.value) {
+                    alert('事件標題是必填欄位');
+                    return false;
+                }
+                break;
+            default:
+                return true;
+        }
+        return true;
     }
 
     componentDidMount() {
@@ -116,8 +153,20 @@ export class Step1 extends React.Component {
                 <div className="row">
                     <div className="col-md-1"></div>
                     <div className="col-sm-12 col-md-offset-1 col-md-5 step-input-container">
-                        <label htmlFor="eventTitle">請輸入事件標題</label>
-                        <input type="text" ref="title" defaultValue={store.event.BeaconEventName} className="form-control" id="eventTitle" />
+                        {
+                            store.eventType != '廣告事件' ? <span>
+                                <label htmlFor="eventTitle">請輸入事件標題</label>
+                                <input type="text" ref="title" defaultValue={store.event.BeaconEventName} className="form-control" id="eventTitle" />
+                            </span> : <AdInputBox ref="adtitle" 
+                                title={store.event.Title}
+                                subtitle={store.event.Text1}
+                                content={store.event.Text2}
+                                titleColor={store.event.TitleColor}
+                                titleBackgroundColor={store.event.TitleBackgroundColor}
+                                imgUrl={store.event.MainIconUrl}
+                                bgUrl={store.event.BackgroundIconUrl}
+                            />
+                        }
                     </div>
                     <div className="col-sm-12 col-md-5 step-input-container">
                         <label htmlFor="eventAction">請選擇查看訊息後需執行之動作</label>
@@ -154,7 +203,7 @@ export class Step1 extends React.Component {
                 <div className="row">
                     <div className="col-md-1"></div>
                     {
-                        store.eventType != '定位事件' ? <div className="col-sm-12 col-md-offset-1 col-md-5 step-input-container">
+                        store.eventType == '客製化事件' ? <div className="col-sm-12 col-md-offset-1 col-md-5 step-input-container">
                             <label htmlFor="eventContent">請輸入訊息內文</label>
                             <input type="text" ref="content" defaultValue={contenttext} className="form-control" id="eventTitle" />
                         </div> : ""
@@ -198,24 +247,24 @@ export class Step2 extends React.Component {
         let status = this.refs.status.getValue();
         let range = this.refs.range.getValue();
 
-        console.log(status,range); 
+        console.log(status, range);
 
-        if(status){
+        if (status) {
             store.event.NearRange = -1;
             store.event.AwayRange = -1;
-            store.event.StayRange = -1;            
+            store.event.StayRange = -1;
 
             store.event.StayTime = status.stayTime;
-            switch(status.status){
+            switch (status.status) {
                 case '靠近':
                     store.event.NearRange = range;
                     break;
                 case '遠離':
                     store.event.AwayRange = range;
-                    break;                
+                    break;
                 case '停留':
                     store.event.StayRange = range;
-                    break;                
+                    break;
             }
         }
 
@@ -252,13 +301,13 @@ export class Step2 extends React.Component {
         let stayTime = store.event.StayTime;
         let range = 6; //預設距離遠
 
-        if(store.event.NearRange > 0){
+        if (store.event.NearRange > 0) {
             status = '靠近';
             range = store.event.NearRange;
-        } else if(store.event.AwayRange > 0){
+        } else if (store.event.AwayRange > 0) {
             status = '遠離';
             range = store.event.AwayRange;
-        } else if(store.event.StayRange > 0){
+        } else if (store.event.StayRange > 0) {
             status = '停留';
             range = store.event.StayRange;
         } else {
@@ -337,7 +386,7 @@ export class Step3 extends React.Component {
         }
 
         if (!store.event.Period) {
-            if(store.eventType == '定位事件'){
+            if (store.eventType == '定位事件') {
                 store.event.Period = 1;
             } else
                 store.event.Period = 86400;
@@ -446,13 +495,13 @@ export class Step4 extends React.Component {
         let stayTime = store.event.StayTime;
         let range = 6; //預設距離遠
 
-        if(store.event.NearRange > 0){
+        if (store.event.NearRange > 0) {
             status = '靠近';
             range = store.event.NearRange;
-        } else if(store.event.AwayRange > 0){
+        } else if (store.event.AwayRange > 0) {
             status = '遠離';
             range = store.event.AwayRange;
-        } else if(store.event.StayRange > 0){
+        } else if (store.event.StayRange > 0) {
             status = '停留';
             range = store.event.StayRange;
         } else {
@@ -460,7 +509,7 @@ export class Step4 extends React.Component {
             range = '6';
         }
 
-        switch(range){
+        switch (range) {
             case '2':
                 range = '近';
                 break;
@@ -475,8 +524,8 @@ export class Step4 extends React.Component {
                 break;
             default:
                 range = '';
-                break;                
-        }        
+                break;
+        }
 
         return <div className="step">
             <br/>
@@ -484,13 +533,27 @@ export class Step4 extends React.Component {
                 <div className="row">
                     <div className="col-md-1"></div>
                     <div className="col-sm-12 col-md-5 step-input-container">
-                        <label htmlFor="eventTitle">事件名稱</label><br/>
-                        {store.event.BeaconEventName}
+                        {
+                            store.eventType != '廣告事件' ? <span>
+                                <label htmlFor="eventTitle">事件名稱</label><br/>
+                                {store.event.BeaconEventName}
+                            </span> : <AdInputBox ref="adtitle" 
+                                title={store.event.Title}
+                                subtitle={store.event.Text1}
+                                content={store.event.Text2}
+                                titleColor={store.event.TitleColor}
+                                titleBackgroundColor={store.event.TitleBackgroundColor}
+                                imgUrl={store.event.MainIconUrl}
+                                bgUrl={store.event.BackgroundIconUrl}
+                            />
+                        }
                     </div>
-                    <div className="col-sm-12 col-md-5 step-input-container">
-                        <label htmlFor="eventAction">訊息內容</label><br/>
-                        {contenttext}
-                    </div>
+                    {
+                        store.eventType != '廣告事件' ? <div className="col-sm-12 col-md-5 step-input-container">
+                            <label htmlFor="eventAction">訊息內容</label><br/>
+                            {contenttext}
+                        </div> : ""
+                    }
                 </div>
                 <div className="row">
                     <div className="col-md-1"></div>
@@ -514,7 +577,7 @@ export class Step4 extends React.Component {
                     </div>
                     <div className="col-sm-12 col-md-5 step-input-container">
                         <label htmlFor="eventAction">觸發Beacon執行之距離</label><br/>
-                        {status}距離{range} {status == '停留'?status+stayTime.toString()+'秒':''}
+                        {status}距離{range} {status == '停留' ? status + stayTime.toString() + '秒' : ''}
                     </div>
                 </div>
                 <div className="row">
@@ -530,7 +593,7 @@ export class Step4 extends React.Component {
                     </div>
                     <div className="col-sm-12 col-md-5 step-input-container">
                         <label htmlFor="eventAction">執行事件時間</label> {store.event.Period}秒 <br/>
-                        啟動時間 {store.event.BeginTime} &nbsp;&nbsp; 結束時間 {store.event.EndTime}
+                        啟動時間 {store.event.BeginTime} &nbsp; &nbsp; 結束時間 {store.event.EndTime}
                     </div>
                 </div>
             </div>

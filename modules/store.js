@@ -284,6 +284,26 @@ class Store {
             valueArray += '^'+event.Text2;
         }
 
+        if(event.TitleColor){
+            keyArray += '^TitleColor';
+            valueArray += '^'+event.TitleColor;
+        }
+
+        if(event.TitleBackgroundColor){
+            keyArray += '^TitleBackgroundColor';
+            valueArray += '^'+event.TitleBackgroundColor;
+        }
+
+        if(event.MainIconUrl){
+            keyArray += '^MainIconUrl';
+            valueArray += '^'+event.MainIconUrl;
+        }
+
+        if(event.BackgroundIconUrl){
+            keyArray += '^BackgroundIconUrl';
+            valueArray += '^'+event.BackgroundIconUrl;
+        }        
+                
         if(event.TargetContent){
             keyArray += '^TargetContent';
             valueArray += '^'+event.TargetContent;
